@@ -3,6 +3,9 @@ import java.util.Random;
 
 public class GuessingGame {
     public static void main(String[] args){
+        final String RED = "\u001B[31m";
+        final String RESET = "\u001B[0m";
+        final String YELLOW = "\u001B[33m";
         final int MIN = 1;
         final int MAX = 101;
         final int MAX_COUNTER = 5;
@@ -17,38 +20,41 @@ public class GuessingGame {
             System.out.print("Invalid input. Try again: ");
             scanner.next();
         }
-        user_input = scanner.nextInt();
-        System.out.println("You entered: " + user_input);
-        
-
         Random rnd = new Random();
+
+        user_input = scanner.nextInt();
         generator = rnd.nextInt(MAX);
-       
+        rightGuess(user_input, generator); 
         re = checkRange(user_input, MIN, MAX);
+
         while (!re){
             user_input = scanner.nextInt();
             re = checkRange(user_input, MIN, MAX);
+            rightGuess(user_input, generator); 
         }
 
         if (re){
             while (user_input != generator) {
                 counter += 1;
                 if (user_input < generator){
-                    System.out.println("Please pick a higher number.");
+                    System.out.println("Please pick a " + RED + "higher " + RESET +  "number.");
                 }else {
-                    System.out.println("Please pick a lower number.");
+                    System.out.println("Please pick a " + YELLOW + "lower " + RESET + "number.");
                 }
                 System.out.print("Guess again: ");
                 user_input = scanner.nextInt();
                 re = checkRange(user_input, MIN, MAX);
+                rightGuess(user_input, generator); 
                 while (!re){
                     user_input = scanner.nextInt();
                     re = checkRange(user_input, MIN, MAX);
+                    rightGuess(user_input, generator); 
                 }
 
                 if (counter == MAX_COUNTER){
-                    System.out.println("Game over");
-                    System.out.println("Random number is: " + generator);
+                    System.out.println(RED + "Game over" + RESET);
+                    System.out.println("Random number was: " + generator);
+                    scanner.close();
                     break;
                 }
             }
@@ -66,6 +72,13 @@ public class GuessingGame {
             return true;
         }
 
+    }
+
+    public static void rightGuess(int user_input, int generator){
+        if (user_input == generator) {
+            System.out.println("YOU GUESSED IT");
+            System.exit(0);
+        }
     }
 
 }
