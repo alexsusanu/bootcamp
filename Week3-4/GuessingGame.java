@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.util.InputMismatchException;
 
 public class GuessingGame {
     public static void main(String[] args){
@@ -28,9 +29,14 @@ public class GuessingGame {
         re = checkRange(user_input, MIN, MAX);
 
         while (!re){
-            user_input = scanner.nextInt();
-            re = checkRange(user_input, MIN, MAX);
-            rightGuess(user_input, generator); 
+            try {
+                user_input = scanner.nextInt();
+                re = checkRange(user_input, MIN, MAX);
+                rightGuess(user_input, generator); 
+            }catch(InputMismatchException e){
+                System.out.print("Number way too big. Try again: ");
+                scanner.next();
+            }
         }
 
         if (re){
@@ -42,9 +48,15 @@ public class GuessingGame {
                     System.out.println("Please pick a " + YELLOW + "lower " + RESET + "number.");
                 }
                 System.out.print("Guess again: ");
+                while (!scanner.hasNextInt()){
+                    System.out.print("Invalid input. Try again: ");
+                    scanner.next();
+                }
+
                 user_input = scanner.nextInt();
                 re = checkRange(user_input, MIN, MAX);
                 rightGuess(user_input, generator); 
+
                 while (!re){
                     user_input = scanner.nextInt();
                     re = checkRange(user_input, MIN, MAX);
@@ -60,7 +72,6 @@ public class GuessingGame {
             }
         }
 
-
     }
 
     public static boolean checkRange(int user_input, int MIN, int MAX){
@@ -71,7 +82,6 @@ public class GuessingGame {
         }else {
             return true;
         }
-
     }
 
     public static void rightGuess(int user_input, int generator){
