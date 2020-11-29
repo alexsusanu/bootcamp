@@ -30,7 +30,6 @@ public class UserLoginApplication {
                 scanner.close();
             }
         }else {
-            //System.out.println("Welcome!" + user.getUserName(username, password, user.userArray));
             user.getUserName(username, password, user.userArray);
         }
         scanner.close();
