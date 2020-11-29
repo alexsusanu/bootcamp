@@ -4,9 +4,11 @@ public class UserLoginApplication {
     static String username;
     static String password;
     static int attempts = 1;
+
     public static void main(String[] args){
         UserService user = new UserService();
         user.readFile();
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your email: ");
         username = scanner.nextLine();
@@ -27,7 +29,10 @@ public class UserLoginApplication {
                 System.out.println("Too many login attempts, you are now locked out.");
                 scanner.close();
             }
-        }else { System.out.println("Welcome!"); }
+        }else {
+            //System.out.println("Welcome!" + user.getUserName(username, password, user.userArray));
+            user.getUserName(username, password, user.userArray);
+        }
         scanner.close();
     }
 
