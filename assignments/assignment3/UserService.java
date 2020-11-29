@@ -13,9 +13,9 @@ public class UserService {
     static ArrayList<User> userArray = new ArrayList<User>();
     static BufferedReader file = null;
 
-    public static void readFile(){
+    public static ArrayList<User> readFile(){
         try {
-            file = new BufferedReader(new FileReader("1data.txt"));
+            file = new BufferedReader(new FileReader("data.txt"));
             while ((line = file.readLine()) != null){ 
                 userArray.add(new User(line.split(",")[0], line.split(",")[1], line.split(",")[2]));
             }
@@ -30,19 +30,15 @@ public class UserService {
                     file.close();
                 } catch (Exception e){}
         }
+        return userArray;
     }
-    //System.out.println(userArray.get(0).getUsername());
-    //System.out.println(userArray.get(1).getUsername());
-    //System.out.println(userArray.get(2).getUsername());
-    //username = "test@email.com";
-    //password = "passwordTest!1";
-    //isMatch(username, password, userArray);
 /*
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter your email: ");
     username = scanner.nextLine();
     System.out.print("Enter your password: ");
     password = scanner.nextLine();
+    isMatch(username, password, userArray);
 
     if (!isMatch()){
         while (attempts < 5){
