@@ -1,13 +1,17 @@
 import java.util.Scanner;
 
 public class UserLoginApplication {
+    static final int MAX_ATTEMPTS = 5;
     static String username;
     static String password;
-    static int attempts = 1;
+    static int loginAttempts;
 
     public static void main(String[] args){
         UserService user = new UserService();
         user.readFile();
+
+        User usr = new User();
+        loginAttempts = usr.getLoginAttempts();
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your email: ");
@@ -17,15 +21,15 @@ public class UserLoginApplication {
         user.isMatch(username, password, user.userArray);
 
         if (!user.isMatch(username, password, user.userArray)){
-            while (attempts < 5){
+            while (loginAttempts < MAX_ATTEMPTS){
                 System.out.println("Invalid login, please try again.");
                 System.out.print("Enter your email: ");
                 scanner.nextLine();
                 System.out.print("Enter your password: ");
                 scanner.nextLine();
-                attempts++;
+                usr.setLoginAttempts(loginAttempts++);
             }
-            if (attempts == 5){
+            if (loginAttempts == MAX_ATTEMPTS){
                 System.out.println("Too many login attempts, you are now locked out.");
                 scanner.close();
             }
