@@ -1,42 +1,43 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class UserLoginApplication {
-    static final int MAX_ATTEMPTS = 5;
     static String username;
     static String password;
     static int loginAttempts;
 
     public static void main(String[] args){
-        UserService user = new UserService();
-        user.readFile();
+        UserService userService = new UserService();
+        FileService fileService = new FileService();
+        User user = new User();
 
-        User usr = new User();
-        loginAttempts = usr.getLoginAttempts();
-
+        loginAttempts = user.getLoginAttempts();
+        
+        
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your email: ");
         username = scanner.nextLine();
         System.out.print("Enter your password: ");
         password = scanner.nextLine();
-        user.isMatch(username, password, user.userArray);
+        User foundUser = userService.matchUsernamePassword(username, password);
 
-        if (!user.isMatch(username, password, user.userArray)){
-            while (loginAttempts < MAX_ATTEMPTS){
+        if (foundUser == null){
+            while (foundUser == null && loginAttempts < user.getMaxAttempts()){
                 System.out.println("Invalid login, please try again.");
                 System.out.print("Enter your email: ");
-                scanner.nextLine();
+                username = scanner.nextLine();
                 System.out.print("Enter your password: ");
-                scanner.nextLine();
-                usr.setLoginAttempts(loginAttempts++);
+                password = scanner.nextLine();
+                user.setLoginAttempts(loginAttempts++);
+                foundUser = userService.matchUsernamePassword(username, password);
             }
-            if (loginAttempts == MAX_ATTEMPTS){
+            if (loginAttempts == user.getMaxAttempts()){
                 System.out.println("Too many login attempts, you are now locked out.");
                 scanner.close();
             }
-        }else {
-            user.getUserName(username, password, user.userArray);
+            scanner.close();
+        } else {
+            System.out.println("Welcome " + foundUser.getName()); 
         }
-        scanner.close();
-    }
 
+    }
 }
