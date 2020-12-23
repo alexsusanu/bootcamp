@@ -1,8 +1,16 @@
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
+
 import java.io.IOException;
 import java.io.FileNotFoundException;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 
 public class FileService {
    
@@ -45,7 +53,6 @@ public class FileService {
     */
     public boolean existsAlready(String name, File file){
         String line;
-        Scanner scanner = new Scanner(System.in);
         
         if (!file.exists() && !file.isDirectory()){
             System.out.println("File error. File doesn't exists or is a directory");
@@ -54,7 +61,7 @@ public class FileService {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while ((line = reader.readLine()) != null){
-                if(line.toLowerCase().contains(name.toLowerCase())){
+                if(line.contains(name)){
                     return true;
                 }
             }
@@ -84,7 +91,7 @@ public class FileService {
             try {
                 Path path = file.toPath();
                 Stream<String> lines = Files.lines(path);
-                List<String> toReplace = lines.map(line -> line.toLowerCase().replaceAll(oldText, newText)).collect(Collectors.toList());
+                List<String> toReplace = lines.map(line -> line.replaceAll(oldText, newText)).collect(Collectors.toList());
                 Files.write(path, toReplace);
                 lines.close();
             }catch (Exception e){

@@ -34,10 +34,17 @@ public class UserLoginApplication {
                 System.out.println("Too many login attempts, you are now locked out.");
                 scanner.close();
             }
-            scanner.close();
         } else {
             System.out.println("Welcome " + foundUser.getName()); 
         }
-
+        
+        System.out.println("Choose options: ");
+        int option = scanner.nextInt();
+        if (option == 1){
+            System.out.println("new username: ");
+            String u = scanner.next();
+            userService.updateUsername(foundUser.getUsername(), u);
+        }
+        scanner.close();
     }
 }
