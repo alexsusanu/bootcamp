@@ -8,7 +8,7 @@ public class FileService {
    
     public FileService(){};
     /**
-    * read from file and insert csv elements into an array
+    * read from csv file and insert csv elements into an array
     * the array will act as User constructor params
     * return an array of User objects
     */
@@ -36,13 +36,19 @@ public class FileService {
         }
         return userArray;
     }
+
+    /**
+    * check if a string exists already in a file
+    * @param 1st argument string to check
+    * @param 2nd argument file of type File
+    * @return boolean
+    */
     public boolean existsAlready(String name, File file){
         String line;
         Scanner scanner = new Scanner(System.in);
         
         if (!file.exists() && !file.isDirectory()){
             System.out.println("File error. File doesn't exists or is a directory");
-            existsAlready(name, file);
         }
 
         try {
@@ -65,18 +71,26 @@ public class FileService {
     /**
     * check for a string in a file and replace all of its occurences with a new string
     * case insensitive, compare strings in lower cases
-    * @param 1st argument old string to replace, 2nd argument: new string to replace with
-    * @param 3rd argument: file of type File to check
-    * @return void
+    * checks if file exists, print stack trace otherwise
+    * @param 1st argument old string to replace 
+    * @param 2nd argument: new string to replace with
+    * @param 3rd argument file of type File 
+    * @return no return. check if element exists before
     */
-    public void replaceElement(String oldText, String newText, String file){
-        try {
-            Path path = Paths.get(file);
-            Stream<String> lines = Files.lines(path);
-            List<String> toReplace = lines.map(line -> line.toLowerCase().replaceAll(oldText, newText)).collect(Collectors.toList());
-            Files.write(path, toReplace);
-            lines.close();
-        }catch (Exception e){}
+    public void replaceElement(String oldText, String newText, File file){
+        if (!file.exists() && !file.isDirectory()){
+            System.out.println("File error. File doesn't exists or is a directory");
+        }else {
+            try {
+                Path path = file.toPath();
+                Stream<String> lines = Files.lines(path);
+                List<String> toReplace = lines.map(line -> line.toLowerCase().replaceAll(oldText, newText)).collect(Collectors.toList());
+                Files.write(path, toReplace);
+                lines.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
 
     }
 
