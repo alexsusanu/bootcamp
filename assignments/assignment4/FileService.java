@@ -77,7 +77,6 @@ public class FileService {
 
     /**
     * check for a string in a file and replace all of its occurences with a new string
-    * case insensitive, compare strings in lower cases
     * checks if file exists, print stack trace otherwise
     * @param 1st argument old string to replace 
     * @param 2nd argument: new string to replace with
