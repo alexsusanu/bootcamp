@@ -3,6 +3,7 @@ import java.io.File;
 
 public class UserService extends User {
     public static final File FILE_NAME = new File("users.txt");
+    public static final String regexEmail = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,7})$";
 
     FileService fileService = new FileService();
 
@@ -21,12 +22,24 @@ public class UserService extends User {
         }
         return null;
     }
-
-    public void updateUsername(String oldUsername, String newUsername){
-        boolean userExists = fileService.existsAlready(newUsername, UserService.FILE_NAME);
-        System.out.println(userExists);
+	/**
+	* update user details (username, password, name)
+	* uses existsAlready() and replaceElement() from FileService
+	* to validate, check old/new username
+	* @return updates username if successful, void otherwise
+	*/
+    public void updateUserDetails(String oldDetails, String newDetails){
+        boolean userExists = fileService.existsAlready(newDetails, UserService.FILE_NAME);
         if (!userExists){
-            fileService.replaceElement(oldUsername, newUsername, UserService.FILE_NAME);
+            fileService.replaceElement(oldDetails, newDetails, UserService.FILE_NAME);
         }
     }
+
+	public boolean validateEmail(String email){
+		return (email.matches(regexEmail));
+	}
+
+	public void menu(){
+		
+	}
 }

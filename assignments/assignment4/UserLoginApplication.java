@@ -43,7 +43,12 @@ public class UserLoginApplication {
         if (option == 1){
             System.out.println("new username: ");
             String u = scanner.next();
-            userService.updateUsername(foundUser.getUsername(), u);
+			while (!userService.validateEmail(u)){
+				System.out.println("invalid email");
+            	System.out.println("new username: ");
+            	u = scanner.next();
+			}
+            userService.updateUserDetails(foundUser.getUsername(), u);
         }
         scanner.close();
     }
