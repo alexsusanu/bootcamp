@@ -26,14 +26,15 @@ public class UserService {
         }
         return null;
     }
-	/**
-	* update user details
-	* @param String oldDetails, newDetails
-	* @param String t == "username" || "name"
-	* uses existsAlready() and replaceElement() from FileService
-	* to validate, check old/new username
-	* @return updates username if successful, void otherwise
-	*/
+    /**
+    * check if a string in a certain column of the csv file exists already
+    * @param 1st argument string to check
+    * @param 2nd argument type of element to check
+    * csv file order(username, pass, name, role)
+    * String t can be either "username", "name"
+    * @param 3rd argument file to check in
+    * @return line number if found, -1 otherwise
+    */
     public void updateUserDetails(String oldDetails, String newDetails, String t){
         boolean userExists = fileService.existsAlready(newDetails, t, UserService.FILE_NAME);
         if (!userExists){
@@ -42,7 +43,7 @@ public class UserService {
     }
 	
 	public boolean validateEmail(String email){
-		return (email.matches(regexEmail));
+		return email.matches(regexEmail);
 	}
 
     public void menu(String role){

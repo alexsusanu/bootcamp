@@ -47,7 +47,9 @@ public class UserLoginApplication {
 		option = scanner.nextInt();
 		switch(option){
 			case 1:
-				//updateUsername()
+				System.out.println("Type in new username: ");
+				String newUsername = scanner.next();
+				userService.updateUserDetails(foundUser.getUsername(), newUsername, "username");
 				break;
 			case 2:
 				//update name

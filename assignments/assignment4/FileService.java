@@ -15,6 +15,9 @@ import java.nio.file.Files;
 public class FileService {
    
     public FileService(){};
+    static final int CSV_USERNAME_POSITION = 0;
+    static final int CSV_PASSWORD_POSITION = 1;
+    static final int CSV_NAME_POSITION = 2;
     /**
     * read from csv file and insert csv elements into an array
     * the array will act as User constructor params
@@ -52,7 +55,7 @@ public class FileService {
     * csv file order(username, pass, name, role)
     * String t can be either "username", "name"
     * @param 3rd argument file to check in
-    * @return boolean
+    * @return line number if found, -1 otherwise
     */
     public boolean existsAlready(String name, String t, File file){
         String line;
@@ -63,9 +66,9 @@ public class FileService {
         }
 
         if (t.equals(new String("username"))){
-            i = 0;
+            i = FileService.CSV_USERNAME_POSITION;
         }else if (t.equals(new String("name"))){
-            i = 2;
+            i = FileService.CSV_NAME_POSITION;
         }else {
             System.out.println("Type element undefined");
             return false;
