@@ -46,22 +46,38 @@ public class FileService {
     }
 
     /**
-    * check if a string exists already in a file
+    * check if a string in a certain column of the csv file exists already
     * @param 1st argument string to check
-    * @param 2nd argument file of type File
+    * @param 2nd argument type of element to check
+    * csv file order(username, pass, name, role)
+    * String t can be either "username", "name" or "role"
+    * @param 3rd argument file to check in
     * @return boolean
     */
-    public boolean existsAlready(String name, File file){
+    public boolean existsAlready(String name, String t, File file){
         String line;
-        
+        int i;
+
         if (!file.exists() && !file.isDirectory()){
             System.out.println("File error. File doesn't exists or is a directory");
         }
 
+        if (t.equals(new String("username"))){
+            i = 0;
+        }else if (t.equals(new String("name"))){
+            i = 2;
+        }else if (t.equals(new String("password"))){
+            i = 3;
+        }else {
+            System.out.println("Type element undefined");
+            return false;
+        }
+        
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while ((line = reader.readLine()) != null){
-                if(line.contains(name)){
+                if(line.split(",")[i].toLowerCase().contains(name.toLowerCase())){
                     return true;
                 }
             }

@@ -4,6 +4,7 @@ public class UserLoginApplication {
     static String username;
     static String password;
     static int loginAttempts;
+	static int option;
 
     public static void main(String[] args){
         UserService userService = new UserService();
@@ -37,19 +38,42 @@ public class UserLoginApplication {
         } else {
             System.out.println("Welcome " + foundUser.getName()); 
         }
-        
-        System.out.println("Choose options: ");
-        int option = scanner.nextInt();
-        if (option == 1){
-            System.out.println("new username: ");
-            String u = scanner.next();
-			while (!userService.validateEmail(u)){
-				System.out.println("invalid email");
-            	System.out.println("new username: ");
-            	u = scanner.next();
-			}
-            userService.updateUserDetails(foundUser.getUsername(), u);
-        }
-        scanner.close();
+       	
+		userService.menu(foundUser.getRole());
+		while(!scanner.hasNextInt()){
+			System.out.println("Invalid input.");
+			scanner.nextLine();
+		}
+		option = scanner.nextInt();
+		switch(option){
+			case 1:
+				//updateUsername()
+				break;
+			case 2:
+				//update name
+				break;
+			case 3:
+				//update pass
+				break;
+			case 4:
+				//exit
+				break;
+			default:
+				try {
+					System.out.println("Invalid input. Select again.");
+					option = scanner.nextInt();
+					while(option > 5 && -1 < option){
+						System.out.println("Invalid option selected.");
+						option = scanner.nextInt();
+					}
+				}catch(InputMismatchException e){
+					while(!scanner.hasNextInt()){
+						System.out.println("Invalid input. Digits only.");
+						option = scanner.nextInt();
+					}
+				}
+				break;
+		}
+		
     }
 }

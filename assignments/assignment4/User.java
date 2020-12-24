@@ -27,6 +27,10 @@ public class User{
     public String getName(){
         return name.strip();
     }
+
+	public String getRole(){
+		return role.strip();
+	}
     public int getLoginAttempts(){
         return loginAttempts;
     }
