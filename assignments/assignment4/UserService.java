@@ -29,7 +29,7 @@ public class UserService {
 	/**
 	* update user details
 	* @param String oldDetails, newDetails
-	* @param String t == "username" || "name" || "password"
+	* @param String t == "username" || "name"
 	* uses existsAlready() and replaceElement() from FileService
 	* to validate, check old/new username
 	* @return updates username if successful, void otherwise

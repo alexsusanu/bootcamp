@@ -50,7 +50,7 @@ public class FileService {
     * @param 1st argument string to check
     * @param 2nd argument type of element to check
     * csv file order(username, pass, name, role)
-    * String t can be either "username", "name" or "role"
+    * String t can be either "username", "name"
     * @param 3rd argument file to check in
     * @return boolean
     */
@@ -66,8 +66,6 @@ public class FileService {
             i = 0;
         }else if (t.equals(new String("name"))){
             i = 2;
-        }else if (t.equals(new String("password"))){
-            i = 3;
         }else {
             System.out.println("Type element undefined");
             return false;
