@@ -2,17 +2,15 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.io.File;
 
-public class User{
+public class SuperUser extends User{
     private String username;
     private String password;
     private String name;
     private String role;
-    private int loginAttempts = 1;
-    private final int MAX_ATTEMPTS = 5;
 
-    public User(){}
+    public SuperUser(){}
 
-    public User(String username, String password, String name, String role){
+    public SuperUser(String username, String password, String name, String role){
         this.username = username;
         this.password = password;
         this.name = name;
@@ -35,26 +33,19 @@ public class User{
 	public String getRole(){
 		return role.strip();
 	}
-    public int getLoginAttempts(){
-        return loginAttempts;
-    }
-
-    public int setLoginAttempts(int loginAttempts){
-        return this.loginAttempts = loginAttempts;
-    }
-
-    public int getMaxAttempts(){
-        return MAX_ATTEMPTS;
-    }
-
+    
+    @Override
     public void selectOption(User foundUser, int option){
         FileService fileService = new FileService();
         Scanner scanner = new Scanner(System.in);
         switch(option){
+            case 0:
+                System.out.println("choice zero");
+                break;
             case 1:
                 Scanner newUser = new Scanner(System.in);
                 System.out.println("Type in new username: ");
-                String newUsername = newUser.nextLine();
+                String newUsername = newUser.next();
                 boolean usernameExists = fileService.existsAlready(newUsername, UserService.FILE_NAME);
                 int lineUsername = fileService.getLine(foundUser.getUsername(), UserService.FILE_NAME);
                 if (!usernameExists){
@@ -100,6 +91,6 @@ public class User{
                     }
                 }
                 break;
-            }
+        }
     }
 }

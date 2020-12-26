@@ -38,13 +38,18 @@ public class UserLoginApplication {
         } else {
             System.out.println("Welcome " + foundUser.getName()); 
         }
-       	
 		userService.menu(foundUser.getRole());
 		while(!scanner.hasNextInt()){
 			System.out.println("Invalid input.");
 			scanner.nextLine();
 		}
         option = scanner.nextInt();
-        user.selectOption(foundUser, option);
+        if (foundUser.getRole().equals(new String("normal_user"))){
+            user.selectOption(foundUser, option);
+        }else if (foundUser.getRole().equals(new String("super_user"))){
+            SuperUser superUser = new SuperUser(foundUser.getUsername(), foundUser.getPassword(), foundUser.getName(),
+            foundUser.getRole());
+            superUser.selectOption(foundUser, option);
+        }
     }
 }
