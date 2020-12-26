@@ -49,24 +49,36 @@ public class UserLoginApplication {
 			case 1:
 				System.out.println("Type in new username: ");
 				String newUsername = scanner.next();
-                boolean userExists = fileService.existsAlready(newUsername, UserService.FILE_NAME);
-                System.out.println(userExists);
-                int line = fileService.getLine(foundUser.getUsername(), UserService.FILE_NAME);
-                if (!userExists){
+                boolean usernameExists = fileService.existsAlready(newUsername, UserService.FILE_NAME);
+                int lineUsername = fileService.getLine(foundUser.getUsername(), UserService.FILE_NAME);
+                if (!usernameExists){
                     fileService.updateFile(newUsername, foundUser.getPassword(), foundUser.getName(),
-                    foundUser.getRole(), line, UserService.FILE_NAME);
+                    foundUser.getRole(), lineUsername, UserService.FILE_NAME);
                 }
 				break;
 			case 2:
+                Scanner n = new Scanner(System.in);
 				System.out.println("Type in new name: ");
-				String newName = scanner.next();
+                String newName;
+                newName = n.nextLine();
+                boolean nameExists = fileService.existsAlready(newName, UserService.FILE_NAME);
+                int lineName = fileService.getLine(foundUser.getName(), UserService.FILE_NAME);
+                if (!nameExists){
+                    fileService.updateFile(foundUser.getUsername(), foundUser.getPassword(), newName,
+                    foundUser.getRole(), lineName, UserService.FILE_NAME);
+                }
 				break;
 			case 3:
-				//update pass
+                Scanner pass = new Scanner(System.in);
+				System.out.println("Type in new password: ");
+                String newPassword;
+                newPassword = pass.nextLine();
+                int linePass = fileService.getLine(foundUser.getUsername(), UserService.FILE_NAME);
+                fileService.updateFile(foundUser.getUsername(), newPassword, foundUser.getName(),
+                foundUser.getRole(), linePass, UserService.FILE_NAME);
 				break;
 			case 4:
-				//exit
-				break;
+				System.exit(0);
 			default:
 				try {
 					System.out.println("Invalid input. Select again.");
