@@ -26,25 +26,6 @@ public class UserService {
         }
         return null;
     }
-    /**
-    * check if a string in a certain column of the csv file exists already
-    * @param 1st argument string to check
-    * @param 2nd argument type of element to check
-    * csv file order(username, pass, name, role)
-    * String t can be either "username", "name"
-    * @param 3rd argument file to check in
-    * @return line number if found, -1 otherwise
-    */
-    
-    /*
-    public void updateUserDetails(String username, String pass, String name, String role, String newDetails, String t){
-        boolean userExists = fileService.existsAlready(newDetails, t, UserService.FILE_NAME);
-        int line = fileService.lineNumber(username, UserService.FILE_NAME);
-        if (!userExists){
-            fileService.updateFile(line, UserService.FILE_NAME, newDetails, pass, name, role);
-        }
-    }
-    */
     
 	
 	public boolean validateEmail(String email){

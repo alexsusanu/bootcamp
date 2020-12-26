@@ -11,9 +11,6 @@ import java.nio.file.Files;
 public class FileService {
    
     public FileService(){};
-    static final int CSV_USERNAME_POSITION = 0;
-    static final int CSV_PASSWORD_POSITION = 1;
-    static final int CSV_NAME_POSITION = 2;
     /**
     * read from csv file and insert csv elements into an array
     * the array will act as User constructor params
@@ -44,21 +41,20 @@ public class FileService {
         return userArray;
     }
 
-    public void existsAlready(String s, File file){
+    public boolean existsAlready(String s, File file){
     String line;
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while((line = reader.readLine()) != null){
                 if (line.contains(s)){
-                    System.out.println(line);
-					break;
+                    return true;
                 }
             }
         }catch (IOException e){}
-
-    }
+        return false;
+    }   
     
-    public void getLine(String s, File file){
+    public int getLine(String s, File file){
     String line;
     int lineNumber = 0;
         try{
@@ -66,15 +62,14 @@ public class FileService {
             while((line = reader.readLine()) != null){
                 ++lineNumber;
                 if (line.contains(s)){
-                    System.out.println(lineNumber);
-					break;
+                    return lineNumber; 
                 }
             }
         }catch (IOException e){}
-
+        return -1;
     }
 
-    public void updateFile(int i, File oldFile, String username, String pass, String name, String role){
+    public void updateFile(String username, String pass, String name, String role, int i, File oldFile){
         File newFile = new File("test.txt");
         int lineNumber = 0;
         String line;

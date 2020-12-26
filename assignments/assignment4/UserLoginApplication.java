@@ -49,17 +49,17 @@ public class UserLoginApplication {
 			case 1:
 				System.out.println("Type in new username: ");
 				String newUsername = scanner.next();
+                boolean userExists = fileService.existsAlready(newUsername, UserService.FILE_NAME);
+                System.out.println(userExists);
+                int line = fileService.getLine(foundUser.getUsername(), UserService.FILE_NAME);
+                if (!userExists){
+                    fileService.updateFile(newUsername, foundUser.getPassword(), foundUser.getName(),
+                    foundUser.getRole(), line, UserService.FILE_NAME);
+                }
 				break;
 			case 2:
 				System.out.println("Type in new name: ");
 				String newName = scanner.next();
-                boolean userExists = fileService.existsAlready(newName, "name", UserService.FILE_NAME);
-                int line = fileService.lineNumber(foundUser.getName(), "username", UserService.FILE_NAME);
-                System.out.println(line);
-                if (!userExists){
-                    fileService.updateFile(line, UserService.FILE_NAME, foundUser.getUsername(),
-                    foundUser.getPassword(), newName, foundUser.getRole());
-                }
 				break;
 			case 3:
 				//update pass
