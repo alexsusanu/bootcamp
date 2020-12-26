@@ -1,15 +1,11 @@
-import java.util.*;
-import java.util.stream.*;
-
+import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.File;
-
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 
 public class FileService {
@@ -48,74 +44,58 @@ public class FileService {
         return userArray;
     }
 
-    /**
-    * check if a string in a certain column of the csv file exists already
-    * @param 1st argument string to check
-    * @param 2nd argument type of element to check
-    * csv file order(username, pass, name, role)
-    * String t can be either "username", "name"
-    * @param 3rd argument file to check in
-    * @return line number if found, -1 otherwise
-    */
-    public boolean existsAlready(String name, String t, File file){
-        String line;
-        int i;
-
-        if (!file.exists() && !file.isDirectory()){
-            System.out.println("File error. File doesn't exists or is a directory");
-        }
-
-        if (t.equals(new String("username"))){
-            i = FileService.CSV_USERNAME_POSITION;
-        }else if (t.equals(new String("name"))){
-            i = FileService.CSV_NAME_POSITION;
-        }else {
-            System.out.println("Type element undefined");
-            return false;
-        }
-        
-
-        try {
+    public void existsAlready(String s, File file){
+    String line;
+        try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            while ((line = reader.readLine()) != null){
-                if(line.split(",")[i].toLowerCase().contains(name.toLowerCase())){
-                    return true;
+            while((line = reader.readLine()) != null){
+                if (line.contains(s)){
+                    System.out.println(line);
+					break;
                 }
             }
-        }catch (FileNotFoundException e){
-            System.out.println("File does not exists");
-            e.printStackTrace();
-        }catch (IOException f){
-            System.out.println("IO error");
-            f.printStackTrace();
-        }
-        return false;
-    }
+        }catch (IOException e){}
 
-    /**
-    * check for a string in a file and replace all of its occurences with a new string
-    * checks if file exists, print stack trace otherwise
-    * @param 1st argument old string to replace 
-    * @param 2nd argument: new string to replace with
-    * @param 3rd argument file of type File 
-    * @return no return. check if element exists before
-    */
-    public void replaceElement(String oldText, String newText, File file){
-        if (!file.exists() && !file.isDirectory()){
-            System.out.println("File error. File doesn't exists or is a directory");
-        }else {
-            try {
-                Path path = file.toPath();
-                Stream<String> lines = Files.lines(path);
-                List<String> toReplace = lines.map(line -> line.replaceAll(oldText, newText)).collect(Collectors.toList());
-                Files.write(path, toReplace);
-                lines.close();
-            }catch (Exception e){
-                e.printStackTrace();
+    }
+    
+    public void getLine(String s, File file){
+    String line;
+    int lineNumber = 0;
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            while((line = reader.readLine()) != null){
+                ++lineNumber;
+                if (line.contains(s)){
+                    System.out.println(lineNumber);
+					break;
+                }
             }
-        }
+        }catch (IOException e){}
 
     }
 
+    public void updateFile(int i, File oldFile, String username, String pass, String name, String role){
+        File newFile = new File("test.txt");
+        int lineNumber = 0;
+        String line;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(oldFile));        
+            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
+            while((line = reader.readLine()) != null){
+                lineNumber += 1;
+                if (lineNumber == i){
+                    writer.write(username + ", " + pass + ", " + name + ", " + role + System.lineSeparator());
+                }else {
+                    writer.write(line + System.lineSeparator());
+                }
+            }
+            writer.close();
+            reader.close();
+            newFile.renameTo(oldFile);
+        
+        }catch (IOException e){}
+
+
+    }
 
 }

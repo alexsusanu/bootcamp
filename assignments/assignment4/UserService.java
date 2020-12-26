@@ -35,12 +35,17 @@ public class UserService {
     * @param 3rd argument file to check in
     * @return line number if found, -1 otherwise
     */
-    public void updateUserDetails(String oldDetails, String newDetails, String t){
+    
+    /*
+    public void updateUserDetails(String username, String pass, String name, String role, String newDetails, String t){
         boolean userExists = fileService.existsAlready(newDetails, t, UserService.FILE_NAME);
+        int line = fileService.lineNumber(username, UserService.FILE_NAME);
         if (!userExists){
-            fileService.replaceElement(oldDetails, newDetails, UserService.FILE_NAME);
+            fileService.updateFile(line, UserService.FILE_NAME, newDetails, pass, name, role);
         }
     }
+    */
+    
 	
 	public boolean validateEmail(String email){
 		return email.matches(regexEmail);
