@@ -11,9 +11,10 @@ public class UserLoginApplication {
         UserService userService = new UserService();
         FileService fileService = new FileService();
         User user = new User();
-
+        Scanner scanner = new Scanner(System.in);
         loginAttempts = user.getLoginAttempts();
-        
+        User foundUser = userService.validateUser();
+        /*
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your email: ");
         username = scanner.nextLine();
@@ -38,6 +39,7 @@ public class UserLoginApplication {
         } else {
             System.out.println("Welcome " + foundUser.getName()); 
         }
+        */
 		userService.menu(foundUser.getRole());
 		while(!scanner.hasNextInt()){
 			System.out.println("Invalid input.");

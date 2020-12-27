@@ -40,7 +40,15 @@ public class SuperUser extends User{
         Scanner scanner = new Scanner(System.in);
         switch(option){
             case 0:
-                System.out.println("choice zero");
+                UserService userService = new UserService();
+                User found = userService.validateUser();
+                userService.menu(found.getRole());
+                while(!scanner.hasNextInt()){
+                    System.out.println("Invalid input.");
+                    scanner.nextLine();
+                }
+                option = scanner.nextInt();
+                found.selectOption(found, option);
                 break;
             case 1:
                 Scanner newUser = new Scanner(System.in);

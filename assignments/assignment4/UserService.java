@@ -11,6 +11,39 @@ public class UserService {
 
     FileService fileService = new FileService();
 
+    public User validateUser(){
+        User user = new User();
+        UserService userService = new UserService();
+
+        int loginAttempts = user.getLoginAttempts();
+        
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your email: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+        User foundUser = userService.matchUsernamePassword(username, password);
+
+        if (foundUser == null){
+            while (foundUser == null && loginAttempts < user.getMaxAttempts()){
+                System.out.println("Invalid login, please try again.");
+                System.out.print("Enter your email: ");
+                username = scanner.nextLine();
+                System.out.print("Enter your password: ");
+                password = scanner.nextLine();
+                user.setLoginAttempts(loginAttempts++);
+                foundUser = userService.matchUsernamePassword(username, password);
+            }
+            if (loginAttempts == user.getMaxAttempts()){
+                System.out.println("Too many login attempts, you are now locked out.");
+                scanner.close();
+            }
+        } else {
+            System.out.println("Welcome " + foundUser.getName()); 
+        }
+        return foundUser;
+    }
+
 
     /**
     * match username and password
