@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.io.File;
 
-public class User{
+public class User { 
     private String username;
     private String password;
     private String name;
@@ -18,6 +18,7 @@ public class User{
         this.name = name;
         this.role = role;
     }
+
     public String getUsername(){
         return username.strip();
     }
