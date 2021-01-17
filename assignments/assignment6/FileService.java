@@ -11,26 +11,26 @@ public class FileService {
      * capitalize filename, split to get the model name/number
      * output with best month/worst month string
      */
-    public void outputReport(File file) {
+    public String outputFileName(File file) {
         String fileWithoutExtension = file.getName().substring(0,6);
         String model = fileWithoutExtension.substring(0,5);
         String modelName = fileWithoutExtension.substring(5,6);
-        String tesla = capitalize(model) + " " + modelName;
-
-        System.out.println("The best month for " + tesla + " was:");
-        System.out.println("The worst month for " + tesla + " was:");
+        String capitalize = model.substring(0,1).toUpperCase() + model.substring(1);
+        String tesla = capitalize + " " + modelName;
+        return tesla;
     }
 
     /** capitalize first letter
      * @param arg name to capitalize
      */
-    public String capitalize(String arg){
-        return arg.substring(0,1).toUpperCase() + arg.substring(1);
-    }
+//    public String capitalize(String arg){
+//        return arg.substring(0,1).toUpperCase() + arg.substring(1);
+//    }
 
     /** get sales date from either min or max value as String
      * @param file to get data from, csv type
-     * @param value -> either min or max value
+     * @param value -> either min or max value taken
+     *              from getStatisticsInfo()
      * @return date for the min or max value
      */
     public String getSalesDate(File file, Integer value) {
