@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FileService {
-    public FileService(){};
+    public FileService(){}
 
     /** output report based on filename
      * @param file use filename for output
@@ -20,13 +20,6 @@ public class FileService {
         String capitalize = model.substring(0,1).toUpperCase() + model.substring(1);
         return capitalize + " " + modelName;
     }
-
-    /** capitalize first letter
-     * @param arg name to capitalize
-     */
-//    public String capitalize(String arg){
-//        return arg.substring(0,1).toUpperCase() + arg.substring(1);
-//    }
 
     /** get sales date from either min or max value as String
      * @param file to get data from, csv type
@@ -73,9 +66,9 @@ public class FileService {
             e.printStackTrace();
         }
         if (minMax.equals("min")){
-            result = valueSales.getMin();
+            result = valueSales != null ? valueSales.getMin() : 0;
         }else if (minMax.equals("max")){
-            result = valueSales.getMax();
+            result = valueSales != null ? valueSales.getMax() : 0;
         }
         return result;
     }
@@ -133,7 +126,7 @@ public class FileService {
      *               "max" -> returns best month
      */
     public void bestWorstMonth(File file, DateService dateService, FileService fileService, String minMax) {
-        Integer statResult = null; // return min or max value
+        Integer statResult; // return min or max value
         String salesDate; // get the date for the min or max value
         String dateOutput; // output date in format yyyy-MM
         String tesla; // return filename as string capitalized

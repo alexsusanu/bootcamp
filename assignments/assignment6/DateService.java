@@ -5,7 +5,7 @@ import java.util.Locale;
 
 public class DateService {
 
-    public DateService(){};
+    public DateService(){}
 
     /** format date for report
      * @param salesDate date taken from csv file in format MMM-yy
