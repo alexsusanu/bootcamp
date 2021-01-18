@@ -26,12 +26,6 @@ public class TeslaAnalysis {
         }catch(IOException e) {
             e.printStackTrace();
         }
-
-        for (String[] l : lines){
-            for (int i = 0; i < l.length; i++) {
-                System.out.println(l[1]);
-            }
-        }
     }
 
 
