@@ -152,4 +152,16 @@ public class FileService {
             System.out.println("The worst month for " + tesla + " was: " + dateOutput);
         }
     }
+
+    /** output total sales per year
+     * @param file csv file
+     * @param dateService date format year from yy -> yyyy
+     * @param fileService get total per year sales
+     */
+    public void yearOutputReport(File file, DateService dateService, FileService fileService) {
+        List<Integer> yearArray = fileService.getYears(file);
+        for (Integer i : yearArray){
+            System.out.println(dateService.getYearFormat(i)+ " -> " + fileService.totalPerYear(file, i));
+        }
+    }
 }

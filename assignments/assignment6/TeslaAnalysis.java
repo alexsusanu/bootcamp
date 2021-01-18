@@ -5,15 +5,21 @@ import java.util.stream.Stream;
 
 public class TeslaAnalysis {
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("modelS.csv");
-        DateService dateService = new DateService();
-        FileService fileService = new FileService();
-
-        List<Integer> yearArray = fileService.getYears(file);
-        for (Integer i : yearArray){
-            System.out.println(""
-                    fileService.totalPerYear(file, i));
+        for(int i = 0; i < args.length; i++){
+            File file = new File(args[i]);
+            DateService dateService = new DateService();
+            FileService fileService = new FileService();
+            fullReportByModel(file, dateService, fileService);
         }
-
     }
+
+    private static void fullReportByModel(File file, DateService dateService, FileService fileService) {
+        System.out.println(fileService.outputFileName(file) + " Yearly Sales Report");
+        System.out.println("------------------------");
+        fileService.yearOutputReport(file, dateService, fileService);
+        System.out.println();
+        fileService.bestWorstMonth(file, dateService, fileService, "max");
+        fileService.bestWorstMonth(file, dateService, fileService, "min");
+    }
+
 }
