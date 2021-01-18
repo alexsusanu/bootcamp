@@ -84,19 +84,72 @@ public class FileService {
      * @param file csv
      * @return years as array
      */
-    public List<Integer> getYear(File file) {
-        List<Integer> yearArray = new ArrayList<>();
+    public List<Integer> getYears(File file) {
+        List<Integer> yearsArray = new ArrayList<>();
         try(Stream<String> lines = Files.lines(file.toPath())){
             lines.skip(1)
                     .map(line -> line.split("-|,")[1])
                     .distinct()
                     .mapToInt(l -> Integer.parseInt(l))
-                    .forEachOrdered(yearArray::add);
+                    .forEachOrdered(yearsArray::add);
         } catch(FileNotFoundException e){
             e.printStackTrace();
         } catch(IOException e){
             e.printStackTrace();
         }
-        return yearArray;
+        return yearsArray;
+    }
+
+    /** get total sales per one year
+     * @param file csv file
+     * @param year as last two digits 2018 -> 18
+     * if year doesnt exists total return is 0 (zero)
+     * @return total sales for the year specified
+     */
+    public Integer totalPerYear(File file, Integer year) {
+        List<Integer> values =  new ArrayList<>();
+        Integer resultValues = null;
+        try(Stream<String> lines = Files.lines(file.toPath())){
+            lines.skip(1) // skip first line of csv file (date, sales strings)
+                    .forEach(
+                            line -> {
+                                if(Integer.parseInt(line.split("-|,")[1]) == year){
+                                    values.add(Integer.parseInt(line.split("-|,")[2]));
+                                }
+                            }
+                    );
+            resultValues = values.stream().reduce(0, Integer::sum);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return resultValues;
+    }
+
+    /** get output best or worst month for model###
+     * @param file csv file
+     * @param dateService output date in format yyyy-MM
+     * @param fileService fileService class use of methods
+     * @param minMax "min" -> returns worst month
+     *               "max" -> returns best month
+     */
+    public void bestWorstMonth(File file, DateService dateService, FileService fileService, String minMax) {
+        Integer statResult = null; // return min or max value
+        String salesDate; // get the date for the min or max value
+        String dateOutput; // output date in format yyyy-MM
+        String tesla; // return filename as string capitalized
+
+        if(minMax.equals("max")){
+            statResult = fileService.getStatisticsInfo(file, "max");
+            salesDate = fileService.getSalesDate(file, statResult);
+            dateOutput = dateService.getDateFormat(salesDate);
+            tesla = fileService.outputFileName(file); // returns String filename capitalized
+            System.out.println("The best month for " + tesla + " was: " + dateOutput);
+        }else if(minMax.equals("min")){
+            statResult = fileService.getStatisticsInfo(file, "min");
+            salesDate = fileService.getSalesDate(file, statResult);
+            dateOutput = dateService.getDateFormat(salesDate);
+            tesla = fileService.outputFileName(file); // returns String filename capitalized
+            System.out.println("The worst month for " + tesla + " was: " + dateOutput);
+        }
     }
 }
