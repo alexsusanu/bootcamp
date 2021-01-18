@@ -11,14 +11,28 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TeslaAnalysis {
-    public static void main(String[] args) {
-        Integer year = 18;
-        File file = new File("model3.csv");
+    public static void main(String[] args) throws FileNotFoundException {
+        File file = new File("modelS.csv");
         DateService dateService = new DateService();
         FileService fileService = new FileService();
         Integer statResult = fileService.getStatisticsInfo(file, "min");
         String dateSales = fileService.getSalesDate(file, statResult);
 
+        List<String[]> lines = null;
+        try(Stream<String> linesFile = Files.lines(file.toPath())){
+            lines = linesFile.skip(1)
+                             .map(line -> line.split("-|,"))
+                             .collect(Collectors.toList());
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String[] l : lines){
+            for (int i = 0; i < l.length; i++) {
+                System.out.println(l[1]);
+            }
+        }
+    }
 
 
 

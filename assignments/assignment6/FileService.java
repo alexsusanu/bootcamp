@@ -1,6 +1,8 @@
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.IntSummaryStatistics;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class FileService {
@@ -16,8 +18,7 @@ public class FileService {
         String model = fileWithoutExtension.substring(0,5);
         String modelName = fileWithoutExtension.substring(5,6);
         String capitalize = model.substring(0,1).toUpperCase() + model.substring(1);
-        String tesla = capitalize + " " + modelName;
-        return tesla;
+        return capitalize + " " + modelName;
     }
 
     /** capitalize first letter
@@ -77,5 +78,25 @@ public class FileService {
             result = valueSales.getMax();
         }
         return result;
+    }
+
+    /** get years from file
+     * @param file csv
+     * @return years as array
+     */
+    public List<Integer> getYear(File file) {
+        List<Integer> yearArray = new ArrayList<>();
+        try(Stream<String> lines = Files.lines(file.toPath())){
+            lines.skip(1)
+                    .map(line -> line.split("-|,")[1])
+                    .distinct()
+                    .mapToInt(l -> Integer.parseInt(l))
+                    .forEachOrdered(yearArray::add);
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return yearArray;
     }
 }
