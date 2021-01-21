@@ -14,6 +14,19 @@ public class CustomArrayList<T> implements CustomList<T> {
 		return true;
 	}
 
+	@Override
+	public boolean add(int index, T item) throws IndexOutOfBoundsException {
+	    if (size == items.length){
+	    	items = increaseSize();
+		}
+	    for (int i = size - 1; i > index; i--){
+	    	items[i+1] = items[i];
+		}
+	    items[index] = item;
+	    size++;
+		return true;
+	}
+
 	private Object[] increaseSize() {
 		Object[] newArray = new Object[size * 2];
 		for (int i = 0; i < size; i++){
@@ -31,5 +44,10 @@ public class CustomArrayList<T> implements CustomList<T> {
 	public T get(int index) {
 		return (T) items[index];
 	}
-	
+
+	@Override
+	public T remove(int index) throws IndexOutOfBoundsException {
+		return null;
+	}
+
 }
