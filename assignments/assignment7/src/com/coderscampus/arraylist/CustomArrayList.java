@@ -47,7 +47,10 @@ public class CustomArrayList<T> implements CustomList<T> {
 
 	@Override
 	public T remove(int index) throws IndexOutOfBoundsException {
-		return null;
+		for (int i = size - 1; i < index; i--){
+			items[i+1] = items[i];
+		}
+		return (T) items[index];
 	}
 
 }

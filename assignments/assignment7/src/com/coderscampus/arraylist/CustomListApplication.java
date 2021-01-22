@@ -9,10 +9,10 @@ public class CustomListApplication {
             j++;
         }
 
-        customList.add(3, 100);
 
-        for (int i = 0; i < customList.getSize(); i++){
-            System.out.println(customList.get(i));
-        }
+//        for (int i = 0; i < customList.getSize(); i++){
+//            System.out.println(customList.get(i));
+//        }
+        System.out.println(customList.remove(0));
     }
 }
