@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,5 +21,16 @@ public class Assignment8Application {
                 Thread.sleep(100);
             } catch (InterruptedException e) {}
         }
+
+        Map<Integer, Integer> output = new HashMap<>();
+        allNumbers.stream()
+                  .forEach(number -> {
+                      if (!output.containsKey(number)){
+                          output.put(number, 1);
+                      }else {
+                          output.put(number, output.get(number) + 1);
+                      }
+                  });
+        System.out.println(output);
     }
 }
