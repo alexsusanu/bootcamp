@@ -6,6 +6,9 @@ public class Runnable {
         FileService fileService = new FileService();
         List<Recipe> recipe = fileService.readFile();
 
-        for (Recipe r : recipe) System.out.println(r);
+        List<Recipe> recipeList = fileService.xFree(recipe);
+        for (Recipe r : recipeList){
+            System.out.println(r);
+        }
     }
 }

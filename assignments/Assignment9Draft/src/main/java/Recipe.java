@@ -12,6 +12,27 @@ public class Recipe {
         private Boolean vegan;
         private Boolean vegetarian;
 
+        public static final String GLUTEN_FREE = "gluten free";
+        public static final String VEGAN = "vegan";
+        public static final String VEGETARIAN = "vegetarian";
+        public static final String VEGAN_GLUTEN_FREE = "vegan gluten free";
+
+    @Override
+    public String toString() {
+        return "Title: " + this.title + "\n" +
+                "Cooking time: " + this.cookingMinutes + "\n" +
+                "Preparation Minutes: " + this.preparationMinutes + "\n" +
+                "Ready in minutes: " + this.readyInMinutes + "\n" +
+                "Dairy Free?: " + boolToString(this.dairyFree) + "\n" +
+                "Gluten Free?: " + boolToString(this.glutenFree) + "\n" +
+                "Vegan?: " + boolToString(this.vegan)+ "\n" +
+                "Vegetarian?: " + boolToString(this.vegetarian) + "\n" +
+                "Servings: " + this.servings + "\n" +
+                "Price per serving: " + this.pricePerServing + "\n" +
+                "Instructions: " + this.instructions;
+    }
+
+
     public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree, String instructions, Double preparationMinutes, Double pricePerServing, Integer readyInMinutes, Integer servings, Double spoonacularScore, String title, Boolean vegan, Boolean vegetarian) {
         this.cookingMinutes = cookingMinutes;
         this.dairyFree = dairyFree;
@@ -124,4 +145,10 @@ public class Recipe {
         this.vegetarian = vegetarian;
     }
 
+    public String boolToString(Boolean arg){
+        if (!arg) {
+            return "No";
+        }
+        return "Yes";
+    }
 }
