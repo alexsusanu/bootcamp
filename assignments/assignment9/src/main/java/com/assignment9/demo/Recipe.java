@@ -21,18 +21,19 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Title: " + this.title + "\n" +
-                "Cooking time: " + this.cookingMinutes + "\n" +
-                "Preparation Minutes: " + this.preparationMinutes + "\n" +
-                "Ready in minutes: " + this.readyInMinutes + "\n" +
-                "Dairy Free?: " + boolToString(this.dairyFree) + "\n" +
-                "Gluten Free?: " + boolToString(this.glutenFree) + "\n" +
-                "Vegan?: " + boolToString(this.vegan)+ "\n" +
-                "Vegetarian?: " + boolToString(this.vegetarian) + "\n" +
-                "Servings: " + this.servings + "\n" +
-                "Price per serving: " + this.pricePerServing + "\n" +
-                "Instructions: " + this.instructions;
+        return "<h2>" + this.title + "</h2>\n" +
+                "<h4 style=\"display: inline\">Cooking time: </h4>" + this.cookingMinutes + "<br>" +
+                "<h4 style=\"display: inline\">Preparation Minutes: </h4>" + this.preparationMinutes + "<br>" +
+                "<h4 style=\"display: inline\">Ready in minutes: </h4>" + this.readyInMinutes + "<br>" +
+                "<h4 style=\"display: inline\">Dairy Free?: </h4>" + boolToString(this.dairyFree) + "<br>" +
+                "<h4 style=\"display: inline\">Gluten Free?: </h4>" + boolToString(this.glutenFree) + "<br>" +
+                "<h4 style=\"display: inline\">Vegan?: </h4>" + boolToString(this.vegan)+ "<br>" +
+                "<h4 style=\"display: inline\">Vegetarian?: </h4>" + boolToString(this.vegetarian) + "<br>" +
+                "<h4 style=\"display: inline\">Servings: </h4>" + this.servings + "<br>" +
+                "<h4 style=\"display: inline\">Price per serving: </h4>" + this.pricePerServing + "<br>" +
+                "<h4>Instructions: </h4><p>" + this.instructions + "</p>\n";
     }
+
 
 
     public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree, String instructions, Double preparationMinutes, Double pricePerServing, Integer readyInMinutes, Integer servings, Double spoonacularScore, String title, Boolean vegan, Boolean vegetarian) {

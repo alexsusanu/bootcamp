@@ -1,7 +1,9 @@
 package com.assignment9.demo;
 
+import com.assignment9.demo.Recipe;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service
 public class FileService {
 
       List<Recipe> recipeList = new ArrayList<>();
@@ -42,28 +45,28 @@ public class FileService {
             return recipeList;
       }
 
-      public List<Recipe> xFree(List<Recipe> recipeList, String x){
-            List<Recipe> xList = new ArrayList<>();
+      public String xFree(List<Recipe> recipeList, String x){
+            String xList = "";
             for (Recipe recipe : recipeList){
                   switch (x){
                         case Recipe.GLUTEN_FREE:
                               if(recipe.getGlutenFree().equals(true)){
-                                    xList.add(recipe);
+                                    xList += recipe;
                               }
                               break;
                         case Recipe.VEGAN:
                               if(recipe.getVegan().equals(true)){
-                                    xList.add(recipe);
+                                    xList += recipe;
                               }
                               break;
                         case Recipe.VEGETARIAN:
                               if(recipe.getVegetarian().equals(true)){
-                                    xList.add(recipe);
+                                    xList += recipe;
                               }
                               break;
                         case Recipe.VEGAN_GLUTEN_FREE:
                               if(recipe.getVegan().equals(true) && recipe.getGlutenFree().equals(true)){
-                                    xList.add(recipe);
+                                    xList += recipe;
                               }
                               break;
                   }
@@ -71,10 +74,10 @@ public class FileService {
             return xList;
       }
 
-      public List<Recipe> xFree(List<Recipe> recipeList){
-           List<Recipe> xList = new ArrayList<>();
+      public String xFree(List<Recipe> recipeList){
+           String xList = "";
            for (Recipe recipe : recipeList){
-                Collections.addAll(xList, recipe);
+                xList += recipe;
            }
            return xList;
       }
