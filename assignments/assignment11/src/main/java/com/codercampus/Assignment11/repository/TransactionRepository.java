@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-
 import com.codercampus.Assignment11.domain.Transaction;
 
 @Repository
@@ -17,10 +16,6 @@ public class TransactionRepository {
 	public TransactionRepository () {
 		super();
 		populateData();
-	}
-	
-	public List<Transaction> findAll () {
-		return transactions;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -32,5 +27,9 @@ public class TransactionRepository {
 			e.printStackTrace();
 		} 
 		
+	}
+
+	public List<Transaction> findAll () {
+		return transactions;
 	}
 }
