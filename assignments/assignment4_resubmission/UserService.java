@@ -1,9 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class UserService {
     private FileService fileService = new FileService();
     private List<User> userArrayList = new ArrayList<>();
+    private Integer loginAttempts = 4;
+
+    public Integer getLoginAttempts(){
+        return loginAttempts;
+    }
+
+    public void setLoginAttempts(Integer loginAttempts){
+        if(loginAttempts == 0){
+            System.out.println("Too many attempts. You are now locked out.");
+        }
+        this.loginAttempts = loginAttempts;
+    }
 
     /*
         read file data.txt
@@ -21,7 +34,13 @@ public class UserService {
         return userArrayList;
     }
 
-    public void checkForMatch(String username, String password){
-
+    public boolean isMatch(String username, String password, List<User> listOfUsers){
+        for (User u : listOfUsers){
+            if((u.getUsername().equalsIgnoreCase(username)) && (u.getPassword().equals(password))) {
+                System.out.println("Welcome " + u.getName());
+                return true;
+            }
+        }
+        return false;
     }
 }
