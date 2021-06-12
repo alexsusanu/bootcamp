@@ -1,10 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FileService {
-    private final File file = new File("data.txt");
+    private final File FILE = new File("users.txt");
     private List<String> listOfStrings = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
 
     /*
         read file data.txt
@@ -13,7 +15,7 @@ public class FileService {
      */
     public List<String> readFile (){
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE));
             String line;
             while((line = bufferedReader.readLine()) != null){
                 listOfStrings.add(line);
@@ -26,5 +28,24 @@ public class FileService {
             e.printStackTrace();
         }
         return listOfStrings;
+    }
+
+    public void updateUsername(String username){
+        File tempFile = new File("temp.txt");
+        String line;
+        System.out.println("Type in your new username: ");
+        String newUsername = scanner.nextLine();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.contains(username)) {
+                    bufferedWriter.write(newUsername + System.lineSeparator());
+                }
+            }
+            bufferedWriter.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
