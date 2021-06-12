@@ -1,5 +1,3 @@
-import com.sun.security.jgss.GSSUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,18 +36,45 @@ public class UserService {
         return userArrayList;
     }
 
-    public boolean isMatch(String username, String password, List<User> listOfUsers){
+    public String[] askLoginDetails(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Insert your username: ");
+        String username = scanner.nextLine();
+        System.out.println("Insert your password: ");
+        String password = scanner.nextLine();
+        return new String[] {username, password};
+    }
+
+    public User isMatch(String username, String password, List<User> listOfUsers){
         for (User u : listOfUsers){
             if((u.getUsername().equalsIgnoreCase(username)) && (u.getPassword().equals(password))) {
                 System.out.println("Welcome " + u.getName());
-                return true;
+                return u;
             }
         }
-        return false;
+        return null;
     }
 
-   public void menuNormalUser(){
-       System.out.println("Please choose from the following options: ");
+    public User validateUserDetails(User matchUser, List<User> users) {
+        String username, password;
+        while (loginAttempts > 0 && matchUser == null) {
+            System.out.println("Invalid login. Try again.");
+            System.out.println("Insert your username: ");
+            username = scanner.nextLine();
+            System.out.println("Insert your password: ");
+            password = scanner.nextLine();
+
+            matchUser = isMatch(username, password, users);
+            if(matchUser == null){
+                setLoginAttempts(loginAttempts - 1);
+                loginAttempts = getLoginAttempts();
+            }
+        }
+        return matchUser;
+    }
+
+    public void menuNormalUser(){
+        System.out.println("Please choose from the following options: ");
        System.out.println("(1) Update username");
        System.out.println("(2) Update password");
        System.out.println("(3) Update name");
@@ -66,8 +91,8 @@ public class UserService {
     }
 
 
-    public String updateName(){
-        System.out.println("Type in your new name: ");
+    public String updateUsername(){
+        System.out.println("Type in your new username: ");
         return scanner.nextLine();
     }
 
@@ -75,4 +100,10 @@ public class UserService {
         System.out.println("Type in your new password: ");
         return scanner.nextLine();
     }
+
+    public String updateName(){
+        System.out.println("Type in your new name: ");
+        return scanner.nextLine();
+    }
+
 }

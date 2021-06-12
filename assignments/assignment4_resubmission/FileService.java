@@ -1,12 +1,10 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class FileService {
     private final File FILE = new File("users.txt");
     private List<String> listOfStrings = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
 
     /*
         read file data.txt
@@ -30,20 +28,42 @@ public class FileService {
         return listOfStrings;
     }
 
-    public void updateUsername(String username){
+    public int getLine(String username){
+        String line;
+        int lineNumber = 0;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE));
+            while ((line = bufferedReader.readLine()) != null) {
+                ++lineNumber;
+                if (line.contains(username)) {
+                    return lineNumber;
+                }
+            }
+            bufferedReader.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void updateFile(String username, String password, String name, String role, int i){
         File tempFile = new File("temp.txt");
         String line;
-        System.out.println("Type in your new username: ");
-        String newUsername = scanner.nextLine();
+        int lineNumber = 0;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE));
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.contains(username)) {
-                    bufferedWriter.write(newUsername + System.lineSeparator());
+                ++lineNumber;
+                if (lineNumber == i) {
+                    bufferedWriter.write(username + ", " + password + ", " + name + ", " + role + System.lineSeparator());
+                }else {
+                    bufferedWriter.write(line + System.lineSeparator());
                 }
             }
             bufferedWriter.close();
+            bufferedReader.close();
+            tempFile.renameTo(FILE);
         } catch (IOException e){
             e.printStackTrace();
         }

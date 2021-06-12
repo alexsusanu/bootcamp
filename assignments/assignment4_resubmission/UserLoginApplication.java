@@ -1,40 +1,28 @@
-import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 public class UserLoginApplication {
-    public static void main(String[] args) throws IOException {
-        String username, password;
-        boolean match;
-
+    public static void main(String[] args){
+        User user = new User();
         UserService userService = new UserService();
         FileService fileService = new FileService();
         List<User> users = userService.addUsers();
-        Integer loginAttempts = userService.getLoginAttempts();
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Insert your username: ");
-        username = scanner.nextLine();
-        System.out.println("Insert your password: ");
-        password = scanner.nextLine();
-        match = userService.isMatch(username, password, users);
+        String[] loginDetails = userService.askLoginDetails();
+        User matchUser = userService.isMatch(loginDetails[0], loginDetails[1], users);
 
-        while(loginAttempts > 0 && !match){
-            System.out.println("Invalid login. Try again.");
-            System.out.println("Insert your username: ");
-            username = scanner.nextLine();
-            System.out.println("Insert your password: ");
-            password = scanner.nextLine();
-
-            match = userService.isMatch(username, password, users);
-            userService.setLoginAttempts(loginAttempts - 1);
-            loginAttempts = userService.getLoginAttempts();
+        while (userService.getLoginAttempts() > 0 && matchUser == null) {
+            matchUser = userService.validateUserDetails(matchUser, users);
         }
 
-        if(match){
+        if(matchUser != null && matchUser.getRole().equals(userService.getSUPER_USER())){
+            userService.menuSuperUser();
+            SuperUser superUser = new SuperUser();
+            superUser.selectOption(userService, fileService, matchUser);
+        }else if (matchUser != null && matchUser.getRole().equals(userService.getNORMAL_USER())){
             userService.menuNormalUser();
-            fileService.updateUsername(username);
+            user.selectOption(userService, fileService, matchUser);
         }
 
     }
+
 }
