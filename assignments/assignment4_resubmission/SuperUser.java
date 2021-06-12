@@ -1,4 +1,6 @@
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class SuperUser extends User{
@@ -10,9 +12,18 @@ public class SuperUser extends User{
       switch (option) {
          case 0:
             List<User> users = userService.addUsers();
-            String[] loginDetails = userService.askLoginDetails();
-            matchUser = userService.isMatch(loginDetails[0], loginDetails[1], users);
-            userService.validateUserDetails(matchUser, users);
+            Map<String, String> loginDetails = userService.askLoginDetails();
+            matchUser = userService.isMatch(loginDetails.get("username"), loginDetails.get("password"), users);
+            User user = userService.validateUserDetails(matchUser, users);
+            checkIfSuperUser(user, users);
+//            while (user.getRole().equals(userService.getSUPER_USER())){
+//               System.out.println("Not allowed to login as another super user");
+//               loginDetails = userService.askLoginDetails();
+//               matchUser = userService.isMatch(loginDetails.get("username"), loginDetails.get("password"), users);
+//               user = userService.validateUserDetails(matchUser, users);
+//               userService.menuNormalUser();
+//               user.selectOption(userService, fileService, matchUser);
+//            }
             break;
          case 1:
             String usernameToUpdate = userService.updateUsername();
@@ -32,5 +43,18 @@ public class SuperUser extends User{
          default:
             System.exit(0);
       }
+   }
+   public void checkIfSuperUser(User user, List<User> users){
+      UserService userService = new UserService();
+      FileService fileService = new FileService();
+      while (user.getRole().equals(userService.getSUPER_USER())){
+         System.out.println("Not allowed to login as another super user");
+         Map<String, String> loginDetails = userService.askLoginDetails();
+         User matchUser = userService.isMatch(loginDetails.get("username"), loginDetails.get("password"), users);
+         user = userService.validateUserDetails(matchUser, users);
+         userService.menuNormalUser();
+         user.selectOption(userService, fileService, matchUser);
+      }
+
    }
 }

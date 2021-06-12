@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserService {
     private Integer loginAttempts = 4;
@@ -36,13 +34,16 @@ public class UserService {
         return userArrayList;
     }
 
-    public String[] askLoginDetails(){
+    public Map<String, String> askLoginDetails(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Insert your username: ");
         String username = scanner.nextLine();
         System.out.println("Insert your password: ");
         String password = scanner.nextLine();
-        return new String[] {username, password};
+        Map<String, String> loginDetails = new HashMap<>();
+        loginDetails.put("username", username);
+        loginDetails.put("password", password);
+        return loginDetails;
     }
 
     public User isMatch(String username, String password, List<User> listOfUsers){

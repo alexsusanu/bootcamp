@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 public class UserLoginApplication {
     public static void main(String[] args){
@@ -7,8 +8,8 @@ public class UserLoginApplication {
         FileService fileService = new FileService();
         List<User> users = userService.addUsers();
 
-        String[] loginDetails = userService.askLoginDetails();
-        User matchUser = userService.isMatch(loginDetails[0], loginDetails[1], users);
+        Map<String, String> loginDetails = userService.askLoginDetails();
+        User matchUser = userService.isMatch(loginDetails.get("username"), loginDetails.get("password"), users);
 
         while (userService.getLoginAttempts() > 0 && matchUser == null) {
             matchUser = userService.validateUserDetails(matchUser, users);
