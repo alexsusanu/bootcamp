@@ -16,10 +16,12 @@ public class UserLoginApplication {
         }
 
         if(matchUser != null && matchUser.getRole().equals(userService.getSUPER_USER())){
+            System.out.println("Welcome " + matchUser.getName());
             userService.menuSuperUser();
             SuperUser superUser = new SuperUser();
             superUser.selectOption(userService, fileService, matchUser);
         }else if (matchUser != null && matchUser.getRole().equals(userService.getNORMAL_USER())){
+            System.out.println("Welcome " + matchUser.getName());
             userService.menuNormalUser();
             user.selectOption(userService, fileService, matchUser);
         }

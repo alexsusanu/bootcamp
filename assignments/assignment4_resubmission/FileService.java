@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileService {
     private final File FILE = new File("users.txt");
@@ -65,6 +66,38 @@ public class FileService {
             bufferedReader.close();
             tempFile.renameTo(FILE);
         } catch (IOException e){
+            e.printStackTrace();
+        }
+        orderFile();
+    }
+
+    public void orderFile(){
+        File tempFile = new File("temp.txt");
+        String line;
+        ArrayList<String> superUserArray = new ArrayList<>();
+        ArrayList<String> normalUserArray = new ArrayList<>();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.split(",")[3].strip().equals("super_user")) {
+                    superUserArray.add(line);
+                } else {
+                    normalUserArray.add(line);
+                }
+            }
+            List<String> s = superUserArray.stream().sorted().collect(Collectors.toList());
+            List<String> n = normalUserArray.stream().sorted().collect(Collectors.toList());
+            for(String x : s){
+                bufferedWriter.append(x + System.lineSeparator());
+            }
+            for(String x : n){
+                bufferedWriter.append(x + System.lineSeparator());
+            }
+            bufferedWriter.close();
+            bufferedReader.close();
+            tempFile.renameTo(FILE);
+        } catch(IOException e){
             e.printStackTrace();
         }
     }

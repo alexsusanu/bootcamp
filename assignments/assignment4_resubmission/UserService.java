@@ -4,6 +4,7 @@ public class UserService {
     private Integer loginAttempts = 4;
     private final String NORMAL_USER = "normal_user";
     private final String SUPER_USER = "super_user";
+    private final String regexEmail = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,7})$";
     private FileService fileService = new FileService();
     private List<User> userArrayList = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
@@ -49,7 +50,6 @@ public class UserService {
     public User isMatch(String username, String password, List<User> listOfUsers){
         for (User u : listOfUsers){
             if((u.getUsername().equalsIgnoreCase(username)) && (u.getPassword().equals(password))) {
-                System.out.println("Welcome " + u.getName());
                 return u;
             }
         }
@@ -105,6 +105,14 @@ public class UserService {
     public String updateName(){
         System.out.println("Type in your new name: ");
         return scanner.nextLine();
+    }
+
+    public String validateEmail(String email){
+        while(!email.matches(regexEmail)){
+            System.out.println("Invalid format.");
+            email = scanner.nextLine();
+        }
+        return email;
     }
 
 }

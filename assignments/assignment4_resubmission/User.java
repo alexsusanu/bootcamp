@@ -6,7 +6,7 @@ public class User {
     private String name;
     private String role;
 
-    public User() {};
+    public User() {}
 
     public User(String username, String password, String name, String role) {
         this.username = username;
@@ -54,7 +54,9 @@ public class User {
         switch (option) {
             case 1:
                 String usernameToUpdate = userService.updateUsername();
-                fileService.updateFile(usernameToUpdate, matchUser.getPassword(), matchUser.getName(), matchUser.getRole(), lineNumber);
+                if((usernameToUpdate = userService.validateEmail(usernameToUpdate)) != null) {
+                    fileService.updateFile(usernameToUpdate, matchUser.getPassword(), matchUser.getName(), matchUser.getRole(), lineNumber);
+                }
                 break;
             case 2:
                 String passwordToUpdate = userService.updatePassword();
