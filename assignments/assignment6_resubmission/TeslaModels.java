@@ -2,6 +2,8 @@ public class TeslaModels {
     private DateService dateService;
     private Integer salesAmount;
 
+    public TeslaModels(){};
+
     public DateService getDateService() {
         return dateService;
     }

@@ -9,14 +9,16 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class TeslaModelsService {
-    TeslaModels teslaModels = new TeslaModels();
+//    TeslaModels teslaModels = new TeslaModels();
     DateService dateService = new DateService();
-    FileService fileService = new FileService();
+//    FileService fileService = new FileService();
 
-    public void addModelInfo(List<String> stringList) {
+    public List<TeslaModels> addModelInfo(List<String> stringList) {
+        List<TeslaModels> teslaModels1 = new ArrayList<>();
         String month, fullDate;
         Integer year, salesAmount;
         for (String s : stringList) {
+            TeslaModels teslaModels = new TeslaModels();
             fullDate = s.split(",")[0]; //get date format MMM-yy
             fullDate = dateService.getDateFormat(fullDate); //format date into YY-MM
             month = s.split(",")[0].split("-")[0]; //get the month
@@ -25,17 +27,10 @@ public class TeslaModelsService {
             salesAmount = Integer.parseInt(s.split(",")[1]); //parse int sales amount
             teslaModels.setSalesAmount(salesAmount); //set sales amount in Tesla POJO
             teslaModels.setDateService(new DateService(month, year)); // set month, year in tesla object via dateService
+            teslaModels1.add(teslaModels);
         }
+        return teslaModels1;
     }
-    public Integer totalPerYear(List<String> stringList, Integer year) {
-        Integer salesAmount = teslaModels.getSalesAmount();
-        Integer salesAmountTotal = 0;
-        for (int i = 0; i < stringList.size(); i++){
-            if(year == teslaModels.getDateService().getYear()){
-                salesAmountTotal += salesAmount;
-            }
-        }
-        for (int i : teslaModels.getDateService().getYear())
-        return salesAmountTotal;
-    }
+//    public Integer totalPerYear(Integer year) {
+//    }
 }
