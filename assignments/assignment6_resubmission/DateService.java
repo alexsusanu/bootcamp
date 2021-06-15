@@ -7,9 +7,9 @@ public class DateService {
     private String month;
     private Integer year;
 
-    public DateService(){};
+    public DateService() { };
 
-    public DateService(String month, Integer year){
+    public DateService(String month, Integer year) {
         this.month = month;
         this.year = year;
     }
@@ -29,7 +29,10 @@ public class DateService {
     public void setYear(Integer year) {
         this.year = year;
     }
-    /** format date for report
+
+    /**
+     * format date for report
+     *
      * @param salesDate date taken from csv file in format MMM-yy
      * @return date as string in format yyyy-MM
      */
@@ -46,7 +49,9 @@ public class DateService {
         return output;
     }
 
-    /** gets the year in format yy
+    /**
+     * gets the year in format yy
+     *
      * @param year as integer
      * @return year as string in format yyyy
      */
