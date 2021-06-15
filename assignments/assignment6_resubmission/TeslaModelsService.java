@@ -1,5 +1,12 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TeslaModelsService {
     TeslaModels teslaModels = new TeslaModels();
@@ -20,12 +27,15 @@ public class TeslaModelsService {
             teslaModels.setDateService(new DateService(month, year)); // set month, year in tesla object via dateService
         }
     }
-    public void fullReportByModel(File file, FileService fileService) {
-        System.out.println(fileService.outputFileName(file) + " Yearly Sales Report");
-        System.out.println("------------------------");
-        fileService.yearOutputReport(file, dateService, fileService);
-        System.out.println();
-        fileService.bestWorstMonth(file, dateService, fileService, "max");
-        fileService.bestWorstMonth(file, dateService, fileService, "min");
+    public Integer totalPerYear(List<String> stringList, Integer year) {
+        Integer salesAmount = teslaModels.getSalesAmount();
+        Integer salesAmountTotal = 0;
+        for (int i = 0; i < stringList.size(); i++){
+            if(year == teslaModels.getDateService().getYear()){
+                salesAmountTotal += salesAmount;
+            }
+        }
+        for (int i : teslaModels.getDateService().getYear())
+        return salesAmountTotal;
     }
 }
