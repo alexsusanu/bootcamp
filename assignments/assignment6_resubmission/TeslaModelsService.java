@@ -75,19 +75,24 @@ public class TeslaModelsService {
     }
     public void fullReport(List<TeslaModels> teslaModelsList, File file, FileService fileService){
         Map<String, Map<String, String>> map;
+
+        System.out.println(fileService.outputFileName(file) + " Yearly Sales Report");
+        System.out.println("------------------------");
         yearOutputReport(teslaModelsList);
 
+        System.out.println();
+
         map = getSummaryStatistics(teslaModelsList, "min");
-        String minKey = map.get("min").keySet().stream().collect(Collectors.joining()); //returns the date
 //        String minValue = map.get("min").values().stream().collect(Collectors.joining()); //returns the value
+        String minKey = map.get("min").keySet().stream().collect(Collectors.joining()); //returns the date
 
         map = getSummaryStatistics(teslaModelsList, "max");
         String maxKey = map.get("max").keySet().stream().collect(Collectors.joining()); //returns the date
 //        String maxValue = map.get("max").values().stream().collect(Collectors.joining()); //returns the value
 
-        System.out.println(minKey);
         System.out.println("Worst month for " + fileService.outputFileName(file) + " was: " + minKey);
         System.out.println("Best month for " + fileService.outputFileName(file) + " was: " + maxKey);
+        System.out.println();
     }
 
 }
