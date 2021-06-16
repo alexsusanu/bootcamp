@@ -11,11 +11,9 @@ public class Runnable {
         TeslaModels teslaModels = new TeslaModels();
         List<String> stringList = fileService.readFile(file);
         List<TeslaModels> t = teslaModelsService.addModelInfo(stringList);
-//        for(TeslaModels s : t){
-//            System.out.println(s.getDateService().getYear());
-//        }
-        System.out.println(teslaModelsService.getYearList(t));
-
+        for(Integer year : teslaModelsService.getYearList(t)){
+            System.out.println(teslaModelsService.getTotalPerYear(year, t));
+        }
 //        for(int i = 0; i < args.length; i++){
 //            File file = new File(args[i]);
 //            teslaModelsService.addModelInfo(fileService.readFile(file));

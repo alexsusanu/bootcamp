@@ -1,13 +1,5 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.IntSummaryStatistics;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TeslaModelsService {
 //    TeslaModels teslaModels = new TeslaModels();
@@ -18,7 +10,7 @@ public class TeslaModelsService {
     public List<TeslaModels> addModelInfo(List<String> stringList) {
         List<TeslaModels> teslaModelsList = new ArrayList<>();
         String month, fullDate;
-        Integer year, salesAmount;
+        int year, salesAmount;
         for (String s : stringList) {
             TeslaModels teslaModels = new TeslaModels();
             fullDate = s.split(",")[0]; //get date format MMM-yy
@@ -34,19 +26,19 @@ public class TeslaModelsService {
         return teslaModelsList;
     }
     public List<Integer> getYearList(List<TeslaModels> teslaModelsList) {
-        List<Integer> yearList = new ArrayList<>();
-        for(TeslaModels t : teslaModelsList){
-            yearList.add(t.getDateService().getYear());
-        }
-        return yearList.stream().distinct().collect(Collectors.toList());
+        List<Integer> yearList = teslaModelsList.stream()
+                                                .map(TeslaModels::getDateService)
+                                                .map(DateService::getYear)
+                                                .collect(Collectors.toList());
+        return yearList.stream()
+                       .distinct()
+                       .collect(Collectors.toList());
     }
 
-    public Integer getTotalPerYear(List<Integer> yearList){
-        Integer totalPerYear = 0;
-        yearList.stream()
-                .forEach(year -> {
-                    if(year == )
-                });
-        return totalPerYear;
+    public Integer getTotalPerYear(Integer year, List<TeslaModels> teslaModelsList){
+        return teslaModelsList.stream()
+                              .filter(t -> t.getDateService().getYear().equals(year))
+                              .mapToInt(TeslaModels::getSalesAmount)
+                              .sum();
     }
 }
