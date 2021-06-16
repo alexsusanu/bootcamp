@@ -1,9 +1,9 @@
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TeslaModelsService {
-//    TeslaModels teslaModels = new TeslaModels();
     DateService dateService = new DateService();
 //    FileService fileService = new FileService();
 
@@ -48,8 +48,8 @@ public class TeslaModelsService {
         }
     }
 
-    public Map<String, String> getSummaryStatistics(List<TeslaModels> teslaModelsList, String minMax){
-        Map<String, String> map = new HashMap<>();
+    public Map<String, Map<String, String>> getSummaryStatistics(List<TeslaModels> teslaModelsList, String minMax){
+        Map<String, Map<String, String>> map = new HashMap<>();
         String teslaModels;
 
         IntSummaryStatistics summaryStatistics = teslaModelsList.stream().collect(Collectors.summarizingInt(TeslaModels::getSalesAmount));
@@ -62,16 +62,32 @@ public class TeslaModelsService {
                     .map(TeslaModels::getDateService)
                     .map(DateService::getFullDate)
                     .collect(Collectors.joining());
-            map.put(max, teslaModels);
+            map.put("max", Map.of(teslaModels, max));
         }else if(minMax.equals("min")){
             teslaModels = teslaModelsList.stream()
                     .filter(t -> t.getSalesAmount().equals(summaryStatistics.getMin()))
                     .map(TeslaModels::getDateService)
                     .map(DateService::getFullDate)
                     .collect(Collectors.joining());
-            map.put(min, teslaModels);
+            map.put("min", Map.of(teslaModels, min));
         }
         return map;
+    }
+    public void fullReport(List<TeslaModels> teslaModelsList, File file, FileService fileService){
+        Map<String, Map<String, String>> map;
+        yearOutputReport(teslaModelsList);
+
+        map = getSummaryStatistics(teslaModelsList, "min");
+        String minKey = map.get("min").keySet().stream().collect(Collectors.joining()); //returns the date
+//        String minValue = map.get("min").values().stream().collect(Collectors.joining()); //returns the value
+
+        map = getSummaryStatistics(teslaModelsList, "max");
+        String maxKey = map.get("max").keySet().stream().collect(Collectors.joining()); //returns the date
+//        String maxValue = map.get("max").values().stream().collect(Collectors.joining()); //returns the value
+
+        System.out.println(minKey);
+        System.out.println("Worst month for " + fileService.outputFileName(file) + " was: " + minKey);
+        System.out.println("Best month for " + fileService.outputFileName(file) + " was: " + maxKey);
     }
 
 }
