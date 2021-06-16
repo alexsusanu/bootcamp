@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TeslaModelsService {
@@ -15,7 +16,7 @@ public class TeslaModelsService {
 
     //TODO
     public List<TeslaModels> addModelInfo(List<String> stringList) {
-        List<TeslaModels> teslaModels1 = new ArrayList<>();
+        List<TeslaModels> teslaModelsList = new ArrayList<>();
         String month, fullDate;
         Integer year, salesAmount;
         for (String s : stringList) {
@@ -28,10 +29,24 @@ public class TeslaModelsService {
             salesAmount = Integer.parseInt(s.split(",")[1]); //parse int sales amount
             teslaModels.setSalesAmount(salesAmount); //set sales amount in Tesla POJO
             teslaModels.setDateService(new DateService(month, year)); // set month, year in tesla object via dateService
-            teslaModels1.add(teslaModels);
+            teslaModelsList.add(teslaModels);
         }
-        return teslaModels1;
+        return teslaModelsList;
     }
-//    public Integer totalPerYear(Integer year) {
-//    }
+    public List<Integer> getYearList(List<TeslaModels> teslaModelsList) {
+        List<Integer> yearList = new ArrayList<>();
+        for(TeslaModels t : teslaModelsList){
+            yearList.add(t.getDateService().getYear());
+        }
+        return yearList.stream().distinct().collect(Collectors.toList());
+    }
+
+    public Integer getTotalPerYear(List<Integer> yearList){
+        Integer totalPerYear = 0;
+        yearList.stream()
+                .forEach(year -> {
+                    if(year == )
+                });
+        return totalPerYear;
+    }
 }
