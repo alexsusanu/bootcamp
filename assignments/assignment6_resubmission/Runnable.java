@@ -1,23 +1,25 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Runnable {
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File("model3.csv");
         TeslaModelsService teslaModelsService = new TeslaModelsService();
         FileService fileService = new FileService();
-        TeslaModels teslaModels = new TeslaModels();
-        List<String> stringList = fileService.readFile(file);
-        List<TeslaModels> t = teslaModelsService.addModelInfo(stringList);
-        for(Integer year : teslaModelsService.getYearList(t)){
-            System.out.println(teslaModelsService.getTotalPerYear(year, t));
-        }
 //        for(int i = 0; i < args.length; i++){
 //            File file = new File(args[i]);
-//            teslaModelsService.addModelInfo(fileService.readFile(file));
-//            teslaModelsService.fullReportByModel(file, fileService);
+            List<TeslaModels> teslaModelsList = teslaModelsService.addModelInfo(fileService.readFile(file));
+//        System.out.println(teslaModelsService.getSummaryStatistics(teslaModelsList, "min"));
+        Map<String, String> map = teslaModelsService.getSummaryStatistics(teslaModelsList, "min");
+        System.out.println(map.get(1));
+//        System.out.println(teslaModelsService.getSummaryStatistics(teslaModelsList, "max"));
+//            teslaModelsService.yearOutputReport(teslaModelsList);
+//            System.out.println(fileService.outputFileName(file) + " Yearly Sales Report");
+//            System.out.println("------------------------");
+//            teslaModelsService.yearOutputReport(teslaModelsList);
+//            System.out.println();
 //        }
     }
 }

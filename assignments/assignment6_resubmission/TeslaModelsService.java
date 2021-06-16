@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TeslaModelsService {
 //    TeslaModels teslaModels = new TeslaModels();
@@ -20,7 +21,7 @@ public class TeslaModelsService {
             year = dateService.getYearFormat(year); //format year into full number 2019 instead of 19
             salesAmount = Integer.parseInt(s.split(",")[1]); //parse int sales amount
             teslaModels.setSalesAmount(salesAmount); //set sales amount in Tesla POJO
-            teslaModels.setDateService(new DateService(month, year)); // set month, year in tesla object via dateService
+            teslaModels.setDateService(new DateService(month, year, fullDate)); // set month, year in tesla object via dateService
             teslaModelsList.add(teslaModels);
         }
         return teslaModelsList;
@@ -41,4 +42,36 @@ public class TeslaModelsService {
                               .mapToInt(TeslaModels::getSalesAmount)
                               .sum();
     }
+    public void yearOutputReport(List<TeslaModels> teslaModelsList){
+            for (Integer i : getYearList(teslaModelsList)){
+            System.out.println(i+ " -> " + getTotalPerYear(i, teslaModelsList));
+        }
+    }
+
+    public Map<String, String> getSummaryStatistics(List<TeslaModels> teslaModelsList, String minMax){
+        Map<String, String> map = new HashMap<>();
+        String teslaModels;
+
+        IntSummaryStatistics summaryStatistics = teslaModelsList.stream().collect(Collectors.summarizingInt(TeslaModels::getSalesAmount));
+        String max = String.valueOf(summaryStatistics.getMax());
+        String min = String.valueOf(summaryStatistics.getMin());
+
+        if(minMax.equals("max")){
+            teslaModels = teslaModelsList.stream()
+                    .filter(t -> t.getSalesAmount().equals(summaryStatistics.getMax()))
+                    .map(TeslaModels::getDateService)
+                    .map(DateService::getFullDate)
+                    .collect(Collectors.joining());
+            map.put(max, teslaModels);
+        }else if(minMax.equals("min")){
+            teslaModels = teslaModelsList.stream()
+                    .filter(t -> t.getSalesAmount().equals(summaryStatistics.getMin()))
+                    .map(TeslaModels::getDateService)
+                    .map(DateService::getFullDate)
+                    .collect(Collectors.joining());
+            map.put(min, teslaModels);
+        }
+        return map;
+    }
+
 }

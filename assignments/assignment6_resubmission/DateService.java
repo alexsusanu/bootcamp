@@ -4,14 +4,15 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateService {
-    private String month;
+    private String month, fullDate;
     private Integer year;
 
     public DateService() { };
 
-    public DateService(String month, Integer year) {
+    public DateService(String month, Integer year, String fullDate) {
         this.month = month;
         this.year = year;
+        this.fullDate = fullDate;
     }
 
     public String getMonth() {
@@ -30,6 +31,13 @@ public class DateService {
         this.year = year;
     }
 
+    public String getFullDate(){
+        return fullDate;
+    }
+
+    public void setFullDate(String fullDate){
+        this.fullDate = fullDate;
+    }
     /**
      * format date for report
      *
